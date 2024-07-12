@@ -1,4 +1,5 @@
-﻿using Lampros.Services.Coupon.API.Models;
+﻿
+using Lampros.Services.CouponAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lampros.Services.CouponAPI.Data

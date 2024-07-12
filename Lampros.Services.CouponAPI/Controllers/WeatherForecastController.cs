@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lampros.Services.Coupon.API.Controllers
+namespace Lampros.Services.CouponAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

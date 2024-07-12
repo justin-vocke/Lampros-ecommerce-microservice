@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E40CD864-6B62-4615-A382-4515350A1490}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.CouponAPI", "Lampros.Services.Coupon.API\Lampros.Services.CouponAPI.csproj", "{4641BA4B-B666-4804-B227-75BB9D69148C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lampros.Services.CouponAPI", "Lampros.Services.CouponAPI\Lampros.Services.CouponAPI.csproj", "{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +19,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4641BA4B-B666-4804-B227-75BB9D69148C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4641BA4B-B666-4804-B227-75BB9D69148C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4641BA4B-B666-4804-B227-75BB9D69148C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4641BA4B-B666-4804-B227-75BB9D69148C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4641BA4B-B666-4804-B227-75BB9D69148C} = {E40CD864-6B62-4615-A382-4515350A1490}
+		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7} = {E40CD864-6B62-4615-A382-4515350A1490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3249687A-DD33-4F43-8F1A-83DC6D4E9355}

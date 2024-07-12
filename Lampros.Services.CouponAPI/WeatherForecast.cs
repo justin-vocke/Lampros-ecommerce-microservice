@@ -1,4 +1,4 @@
-namespace Lampros.Services.Coupon.API
+namespace Lampros.Services.CouponAPI
 {
     public class WeatherForecast
     {
