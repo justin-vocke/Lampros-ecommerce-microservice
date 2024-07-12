@@ -1,0 +1,6 @@
+@Lampros.Services.Coupon.API_HostAddress = http://localhost:5056
+
+GET {{Lampros.Services.Coupon.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

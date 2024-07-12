@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{E49E3EAC-5BC0-475D-A6E6-B2CCFAE13DAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{FAA2C84E-B596-4507-8FD5-8682EB521715}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{01286A34-F639-4E70-8476-B49712431147}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E40CD864-6B62-4615-A382-4515350A1490}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.CouponAPI", "Lampros.Services.Coupon.API\Lampros.Services.CouponAPI.csproj", "{4641BA4B-B666-4804-B227-75BB9D69148C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4641BA4B-B666-4804-B227-75BB9D69148C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4641BA4B-B666-4804-B227-75BB9D69148C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4641BA4B-B666-4804-B227-75BB9D69148C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4641BA4B-B666-4804-B227-75BB9D69148C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4641BA4B-B666-4804-B227-75BB9D69148C} = {E40CD864-6B62-4615-A382-4515350A1490}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3249687A-DD33-4F43-8F1A-83DC6D4E9355}
+	EndGlobalSection
+EndGlobal
