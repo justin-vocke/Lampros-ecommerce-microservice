@@ -1,3 +1,5 @@
+using AutoMapper;
+using Lampros.Services.CouponAPI;
 using Lampros.Services.CouponAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,9 @@ builder.Services.AddDbContext<CouponDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CouponDbConnection"));
 });
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
