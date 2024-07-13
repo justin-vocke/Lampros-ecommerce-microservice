@@ -24,6 +24,10 @@ namespace Lampros.MVC.Controllers
             {
                 couponDtos = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(response.Result));
             }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
             return View(couponDtos);
         }
 
@@ -43,9 +47,14 @@ namespace Lampros.MVC.Controllers
 
 				if (response is not null && response.IsSuccess)
 				{
+                    TempData["success"] = "Coupon Created Successfully";
                     return RedirectToAction(nameof(CouponIndex));
 				}
-			}
+                else
+                {
+                    TempData["error"] = response?.Message;
+                }
+            }
 			return View(couponDto);
 		}
 
@@ -58,7 +67,11 @@ namespace Lampros.MVC.Controllers
 				CouponDto couponDto = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(response.Result));
                 return View(couponDto);
 			}
-			return NotFound();
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+            return NotFound();
 		}
         [HttpPost]
         public async Task<IActionResult> CouponDelete(CouponDto couponDto)
@@ -67,7 +80,12 @@ namespace Lampros.MVC.Controllers
 
             if (response is not null && response.IsSuccess)
             {
+                TempData["success"] = "Coupon Deleted Successfully";
                 return RedirectToAction(nameof(CouponIndex));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
             }
             return View(couponDto);
         }

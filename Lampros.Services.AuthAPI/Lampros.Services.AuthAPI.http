@@ -1,0 +1,6 @@
+@Lampros.Services.AuthAPI_HostAddress = http://localhost:5274
+
+GET {{Lampros.Services.AuthAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
