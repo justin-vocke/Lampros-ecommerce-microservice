@@ -47,5 +47,21 @@ namespace Lampros.Services.AuthAPI.Controllers
             _responseDto.Result = loginResponse;
             return Ok(_responseDto);    
         }
+
+        [HttpPost]
+        [Route("assignrole")]
+        public async Task<IActionResult> AddRole([FromBody] RegistrationRequestDto registrationRequestDto)
+        {
+            var assignRoleSuccessful = await _authService.AssignRole(registrationRequestDto.Email, registrationRequestDto.RoleName.ToUpper());
+
+            if (!assignRoleSuccessful)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = "Error Encountered";
+                return BadRequest(_responseDto);
+            }
+            
+            return Ok(_responseDto);
+        }
     }
 }

@@ -12,13 +12,32 @@ namespace Lampros.Services.AuthAPI.Service
         private readonly AuthDbContext _authDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager, 
-            RoleManager<IdentityRole> roleManager)
+        public AuthService(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager, IJwtTokenGenerator jwtTokenGenerator)
         {
             _authDbContext = authDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenGenerator = jwtTokenGenerator;
+        }
+
+        public async Task<bool> AssignRole(string email, string roleName)
+        {
+            var user = _authDbContext.ApplicationUsers.FirstOrDefault(x => x.Email.ToLower() == email.ToLower());
+            if(user is not null)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExists)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+                await _userManager.AddToRoleAsync(user, roleName);
+                return true;
+            }
+            return false;
+
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
@@ -33,6 +52,7 @@ namespace Lampros.Services.AuthAPI.Service
             }
 
             //if user was found and logged in successfully, generate token
+            var token = _jwtTokenGenerator.GenerateToken(user);
             UserDto userDto = new()
             {
                 Email = user.Email,
@@ -42,10 +62,11 @@ namespace Lampros.Services.AuthAPI.Service
                 PhoneNumber = user.PhoneNumber
             };
 
+            
             LoginResponseDto loginResponseDto = new()
             {
                 User = userDto,
-                Token = ""
+                Token = token
             };
 
             return loginResponseDto;
