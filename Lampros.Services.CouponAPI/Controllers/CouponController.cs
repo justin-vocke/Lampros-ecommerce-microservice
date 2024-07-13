@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lampros.Services.CouponAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/coupon")]
     [ApiController]
     public class CouponController : ControllerBase
     {
@@ -121,6 +121,7 @@ namespace Lampros.Services.CouponAPI.Controllers
         }
 
         [HttpDelete]
+        [Route("{couponId:int}")]
         public async Task<ResponseDto> Delete(int couponId)
         {
             try

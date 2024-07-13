@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
-StaticTypes.CouponApiBase = builder.Configuration.GetConnectionString("ServiceUrls:CouponApi");
+StaticTypes.CouponApiBase = builder.Configuration["ServiceUrls:CouponApi"];
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();    
