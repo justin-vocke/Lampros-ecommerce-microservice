@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Lampros.Services.AuthAPI.Models.Dto;
+using Lampros.Services.AuthAPI.Service.IService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lampros.Services.AuthAPI.Controllers
@@ -7,18 +9,43 @@ namespace Lampros.Services.AuthAPI.Controllers
     [ApiController]
     public class AuthAPIController : ControllerBase
     {
+        private readonly IAuthService _authService;
+        protected ResponseDto _responseDto;
+
+        public AuthAPIController(IAuthService authService)
+        {
+            _authService = authService;
+            _responseDto = new();
+        }
+
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register()
+        public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationRequestDto)
         {
-            return Ok();
+            var errorMessage = await _authService.Register(registrationRequestDto);
+            if(!string.IsNullOrEmpty(errorMessage))
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = errorMessage;
+                return BadRequest(_responseDto);
+            }
+            return Ok(_responseDto);
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            return Ok();
+            var loginResponse = await _authService.Login(loginRequestDto);
+
+            if(loginResponse.User is null)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = "Please double check your credentials";
+                return BadRequest(_responseDto);
+            }
+            _responseDto.Result = loginResponse;
+            return Ok(_responseDto);    
         }
     }
 }
