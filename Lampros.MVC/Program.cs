@@ -1,6 +1,7 @@
 using Lampros.MVC.Service;
 using Lampros.MVC.Service.IService;
 using Lampros.MVC.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,15 @@ StaticTypes.AuthApiBase = builder.Configuration["ServiceUrls:AuthApi"];
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();    
 builder.Services.AddScoped<IAuthService, AuthService>();    
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromHours(10);
+    options.LoginPath = "/Auth/Login";
+   
+
+});
 
 var app = builder.Build();
 
@@ -34,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
