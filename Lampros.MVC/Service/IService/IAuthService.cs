@@ -1,5 +1,4 @@
 ﻿using Lampros.MVC.Models;
-using Lampros.MVC.Models.Dto;
 
 namespace Lampros.MVC.Service.IService
 {
