@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.MVC", "Lampros.MVC\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.AuthAPI", "Lampros.Services.AuthAPI\Lampros.Services.AuthAPI.csproj", "{7FA32866-C22E-479E-9D4E-E3EFD311A946}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.ProductAPI", "Lampros.Services.ProductAPI\Lampros.Services.ProductAPI.csproj", "{EF336708-D133-4803-9FF6-83EE279D8FD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{7FA32866-C22E-479E-9D4E-E3EFD311A946}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FA32866-C22E-479E-9D4E-E3EFD311A946}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FA32866-C22E-479E-9D4E-E3EFD311A946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{FA561C2F-D3B7-4831-B8A4-BF6A5EC2CDB7} = {E40CD864-6B62-4615-A382-4515350A1490}
 		{FB78FDD7-85FC-43E4-AA65-5E21AB538618} = {E49E3EAC-5BC0-475D-A6E6-B2CCFAE13DAC}
 		{7FA32866-C22E-479E-9D4E-E3EFD311A946} = {E40CD864-6B62-4615-A382-4515350A1490}
+		{EF336708-D133-4803-9FF6-83EE279D8FD0} = {E40CD864-6B62-4615-A382-4515350A1490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3249687A-DD33-4F43-8F1A-83DC6D4E9355}

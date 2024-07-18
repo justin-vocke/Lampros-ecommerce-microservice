@@ -84,6 +84,7 @@ namespace Lampros.Services.CouponAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] CouponDto couponDto)
         {
             try
@@ -103,6 +104,7 @@ namespace Lampros.Services.CouponAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] CouponDto couponDto)
         {
             try
@@ -124,6 +126,7 @@ namespace Lampros.Services.CouponAPI.Controllers
 
         [HttpDelete]
         [Route("{couponId:int}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int couponId)
         {
             try
@@ -131,8 +134,6 @@ namespace Lampros.Services.CouponAPI.Controllers
                 var coupon = await _context.Coupons.FirstOrDefaultAsync(x => x.CouponId == couponId);
                 _context.Coupons.Remove(coupon);
                 await _context.SaveChangesAsync();
-
-               
             }
             catch (Exception ex)
             {
