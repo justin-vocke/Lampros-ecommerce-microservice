@@ -2,6 +2,7 @@
 using Lampros.Services.CouponAPI.Data;
 using Lampros.Services.CouponAPI.Models;
 using Lampros.Services.CouponAPI.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Lampros.Services.CouponAPI.Controllers
 {
     [Route("api/coupon")]
+    [Authorize]
     [ApiController]
     public class CouponController : ControllerBase
     {

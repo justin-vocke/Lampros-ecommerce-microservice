@@ -43,10 +43,10 @@ namespace Lampros.MVC.Controllers
             }
             else
             {
-                ModelState.AddModelError("CustomerError", responseDto.Message);
+                TempData["error"] = responseDto.Message;
                 return View(loginRequestDto);
             }
-            
+
         }
         [HttpGet]
         public IActionResult Register()
@@ -80,6 +80,10 @@ namespace Lampros.MVC.Controllers
                         return RedirectToAction(nameof(Login));
                     }
                 
+            }
+            else
+            {
+                TempData["error"] = responseDto.Message;
             }
             var roleList = new List<SelectListItem>()
             {

@@ -28,7 +28,7 @@ namespace Lampros.MVC.Service
                 ApiType = ApiType.POST,
                 Url = AuthApiBase + "/api/auth/login",
                 Data = loginRequest
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto)
@@ -38,7 +38,7 @@ namespace Lampros.MVC.Service
                 ApiType = ApiType.POST,
                 Url = AuthApiBase + "/api/auth/register",
                 Data = registrationRequestDto
-            });
+            }, withBearer: false);
         }
     }
 }
