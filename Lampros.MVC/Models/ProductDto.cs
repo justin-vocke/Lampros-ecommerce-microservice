@@ -1,10 +1,17 @@
-﻿namespace Lampros.MVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lampros.MVC.Models
 {
-    public record ProductDto(int ProductId, 
-     string Name, 
-     double Price, 
-     string Description, 
-     string Category, 
-     string ImageUrl );
+    public class ProductDto
+    {
+        public int ProductId { get; set; }  
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public string ImageUrl { get; set; }
+        [Range(1,100)]
+        public int Count { get; set; } = 1;
+    }
     
 }

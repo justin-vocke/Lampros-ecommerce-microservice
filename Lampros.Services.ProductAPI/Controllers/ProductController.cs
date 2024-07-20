@@ -11,7 +11,7 @@ namespace Lampros.Services.ProductAPI.Controllers
 {
     [Route("api/product")]
     [ApiController]
-    [Authorize]
+    
     public class ProductController : ControllerBase
     {
         private readonly ProductDbContext _context;
