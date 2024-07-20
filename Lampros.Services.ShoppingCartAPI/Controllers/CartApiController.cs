@@ -13,6 +13,8 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
     [ApiController]
     public class CartAPIController : ControllerBase
     {
+        //Tutorial has all business logic and data access in controller. Super bad practice and will refactor to make 
+        //controllers thin
         private ResponseDto _response;
         private IMapper _mapper;
         private readonly ShoppingCartDbContext _context;
