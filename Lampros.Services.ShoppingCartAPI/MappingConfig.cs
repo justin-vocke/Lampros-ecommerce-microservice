@@ -11,7 +11,7 @@ namespace Lampros.Services.ShoppingCartAPI
             var mapperConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<CartDetails, CartDetailsDto>().ReverseMap();
-                config.CreateMap<CartHeader, CartHeader>().ReverseMap();
+                config.CreateMap<CartHeader, CartHeaderDto>().ReverseMap();
             });
             return mapperConfig;
         }
