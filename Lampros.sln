@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.AuthAPI", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.ProductAPI", "Lampros.Services.ProductAPI\Lampros.Services.ProductAPI.csproj", "{EF336708-D133-4803-9FF6-83EE279D8FD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lampros.Services.ShoppingCartAPI", "Lampros.Services.ShoppingCartAPI\Lampros.Services.ShoppingCartAPI.csproj", "{D421A8E3-551F-42E0-B89D-7840A591449A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF336708-D133-4803-9FF6-83EE279D8FD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D421A8E3-551F-42E0-B89D-7840A591449A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D421A8E3-551F-42E0-B89D-7840A591449A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D421A8E3-551F-42E0-B89D-7840A591449A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D421A8E3-551F-42E0-B89D-7840A591449A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{FB78FDD7-85FC-43E4-AA65-5E21AB538618} = {E49E3EAC-5BC0-475D-A6E6-B2CCFAE13DAC}
 		{7FA32866-C22E-479E-9D4E-E3EFD311A946} = {E40CD864-6B62-4615-A382-4515350A1490}
 		{EF336708-D133-4803-9FF6-83EE279D8FD0} = {E40CD864-6B62-4615-A382-4515350A1490}
+		{D421A8E3-551F-42E0-B89D-7840A591449A} = {E40CD864-6B62-4615-A382-4515350A1490}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3249687A-DD33-4F43-8F1A-83DC6D4E9355}
