@@ -2,6 +2,8 @@ using AutoMapper;
 using Lampros.Services.ShoppingCartAPI;
 using Lampros.Services.ShoppingCartAPI.Data;
 using Lampros.Services.ShoppingCartAPI.Extensions;
+using Lampros.Services.ShoppingCartAPI.Service;
+using Lampros.Services.ShoppingCartAPI.Service.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -18,6 +20,13 @@ builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddHttpClient("Product", u => u.BaseAddress = 
+new Uri(builder.Configuration["ServiceUrls:ProductApi"]));
+
+builder.Services.AddHttpClient("Coupon", u => u.BaseAddress =
+new Uri(builder.Configuration["ServiceUrls:CouponApi"]));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

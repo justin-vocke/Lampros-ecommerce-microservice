@@ -1,5 +1,12 @@
 ﻿namespace Lampros.Services.ShoppingCartAPI.Models.Dto
 {
-    public record CouponDto(int CouponId, string CouponCode, double DiscountAmount, int? MinAmount);
+    public class CouponDto
+    {
+        public int CouponId { get; set; }
+        public string CouponCode { get; set; }
+        public  double DiscountAmount { get; set; }
+        public int? MinAmount { get; set;}
+    
+    }
     
 }
