@@ -21,8 +21,9 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         private readonly ShoppingCartDbContext _context;
         private readonly IProductService _productService;
         private readonly IConfiguration _configuration;
-        private readonly ICouponService _couponService;
         private readonly IMessageBus _messageBus;
+        private readonly ICouponService _couponService;
+        
 
         public CartAPIController(IMapper mapper, ShoppingCartDbContext context, IProductService productService,
             ICouponService couponService, IMessageBus messageBus, IConfiguration configuration)

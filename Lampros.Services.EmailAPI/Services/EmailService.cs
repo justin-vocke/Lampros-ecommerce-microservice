@@ -34,6 +34,12 @@ namespace Lampros.Services.EmailAPI.Services
 
         }
 
+        public async Task RegisterUserEmailAndLog(string email)
+        {
+            string message = "User registration successful. <br/> Email : " + email;
+            await LogAndEmail(message, email);
+        }
+
         private async Task<bool> LogAndEmail(string message, string email)
         {
             try
