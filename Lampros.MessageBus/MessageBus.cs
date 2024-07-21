@@ -10,7 +10,7 @@ namespace Lampros.MessageBus
 {
     public class MessageBus : IMessageBus
     {
-        private string connectionString = "service bus connection string here. left out of git until secure way is implemented to store in class library";
+        private string connectionString = "service bus connection string";
         public async Task PublishMessage(object message, string topic_queue_Name)
         {
             await using var client = new ServiceBusClient(connectionString);
