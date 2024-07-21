@@ -70,7 +70,7 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpPost("ApplyCoupon")]
-        public async Task<object> ApplyCoupon(CartDto cartDto)
+        public async Task<object> ApplyCoupon([FromBody] CartDto cartDto)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpPost("RemoveCart")]
-        public async Task<ResponseDto> RemoveCart(int cartDetailsId)
+        public async Task<ResponseDto> RemoveCart([FromBody]int cartDetailsId)
         {
             //Tutorial has any changes to cart (add item, change item count, etc.) make a call to Db. 
             //This is excessive and expensive and I'll be looking to aggregate this perhaps with an event or 
