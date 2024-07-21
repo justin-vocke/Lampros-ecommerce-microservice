@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lampros.MessageBus;
 using Lampros.Services.ShoppingCartAPI.Data;
 using Lampros.Services.ShoppingCartAPI.Models;
 using Lampros.Services.ShoppingCartAPI.Models.Dto;
@@ -16,19 +17,23 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         //Tutorial has all business logic and data access in controller. Super bad practice and will refactor to make 
         //controllers thin
         private ResponseDto _response;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly ShoppingCartDbContext _context;
-        private IProductService _productService;
-        private ICouponService _couponService;
+        private readonly IProductService _productService;
+        private readonly IConfiguration _configuration;
+        private readonly ICouponService _couponService;
+        private readonly IMessageBus _messageBus;
 
-        public CartAPIController(IMapper mapper, ShoppingCartDbContext context, IProductService productService, 
-            ICouponService couponService)
+        public CartAPIController(IMapper mapper, ShoppingCartDbContext context, IProductService productService,
+            ICouponService couponService, IMessageBus messageBus, IConfiguration configuration)
         {
             this._response = new ResponseDto();
             _mapper = mapper;
             _context = context;
             _productService = productService;
             _couponService = couponService;
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
         [HttpGet("GetCart/{userId}")]
         public async Task<ResponseDto> GetCart(string userId)
@@ -106,6 +111,23 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
             }
             return _response;
         }
+
+        [HttpPost("EmailCartRequest")]
+        public async Task<object> EmailCartRequest([FromBody] CartDto cartDto)
+        {
+            try
+            {
+                await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCart"));
+                _response.Result = true;
+            }
+            catch (Exception ex)
+            {
+                _response.Message = ex.Message.ToString();
+                _response.IsSuccess = false;
+            }
+            return _response;
+        }
+
 
         [HttpPost("CartUpsert")]
         public async Task<ResponseDto> CartUpsert(CartDto cartDto)
