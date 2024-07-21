@@ -21,8 +21,9 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         private readonly ShoppingCartDbContext _context;
         private readonly IProductService _productService;
         private readonly IConfiguration _configuration;
-        private readonly ICouponService _couponService;
         private readonly IMessageBus _messageBus;
+        private readonly ICouponService _couponService;
+        
 
         public CartAPIController(IMapper mapper, ShoppingCartDbContext context, IProductService productService,
             ICouponService couponService, IMessageBus messageBus, IConfiguration configuration)
@@ -117,7 +118,7 @@ namespace Lampros.Services.ShoppingCartAPI.Controllers
         {
             try
             {
-                await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCart"));
+                await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
                 _response.Result = true;
             }
             catch (Exception ex)

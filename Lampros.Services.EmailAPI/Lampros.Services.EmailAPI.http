@@ -1,0 +1,6 @@
+@Lampros.Services.EmailAPI_HostAddress = http://localhost:5101
+
+GET {{Lampros.Services.EmailAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

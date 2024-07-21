@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Lampros.MVC.Models.Dto
+namespace Lampros.Services.EmailAPI.Models.Dto
 {
     public class CartHeaderDto
     {
@@ -12,13 +11,9 @@ namespace Lampros.MVC.Models.Dto
         public double Discount { get; set; }
        
         public double CartTotal { get; set; }
-        [Required]
         public string? FirstName { get; set; }
-        [Required]
         public string? LastName { get; set;}
-        [Required]
         public string? Phone { get; set; }
-        [Required]
         public string? Email { get; set; }
     }
 }

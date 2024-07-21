@@ -1,4 +1,5 @@
-﻿using Lampros.Services.AuthAPI.Models.Dto;
+﻿using Lampros.MessageBus;
+using Lampros.Services.AuthAPI.Models.Dto;
 using Lampros.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,16 @@ namespace Lampros.Services.AuthAPI.Controllers
     public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IConfiguration _configuration;
+        private readonly IMessageBus _messageBus;
         protected ResponseDto _responseDto;
 
-        public AuthAPIController(IAuthService authService)
+        public AuthAPIController(IAuthService authService, IConfiguration configuration, IMessageBus messageBus)
         {
             _authService = authService;
             _responseDto = new();
+            _configuration = configuration;
+            _messageBus = messageBus;
         }
 
         [HttpPost]
@@ -29,6 +34,9 @@ namespace Lampros.Services.AuthAPI.Controllers
                 _responseDto.Message = errorMessage;
                 return BadRequest(_responseDto);
             }
+            var email = registrationRequestDto.Email;
+            await _messageBus.PublishMessage(email, _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue"));
+
             return Ok(_responseDto);
         }
 
