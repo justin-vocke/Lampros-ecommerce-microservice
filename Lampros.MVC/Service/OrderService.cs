@@ -22,6 +22,24 @@ namespace Lampros.MVC.Service
             });
         }
 
-        
+        public async Task<ResponseDto?> CreateStripeSession(StripeRequestDto stripeRequesttDto)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.POST,
+                Url = OrderApiBase + "/api/order/CreateStripeSession",
+                Data = stripeRequesttDto
+            });
+        }
+
+        public async Task<ResponseDto?> ValidateStripeSession(int orderHeaderId)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.POST,
+                Url = OrderApiBase + "/api/order/ValidateStripeSession",
+                Data = orderHeaderId
+            });
+        }
     }
 }
