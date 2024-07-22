@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lampros.MessageBus;
 using Lampros.Services.OrderAPI.Data;
 using Lampros.Services.OrderAPI.Models;
 using Lampros.Services.OrderAPI.Models.Dto;
@@ -20,12 +21,16 @@ namespace Lampros.Services.OrderAPI.Controllers
         private IMapper _mapper;
         private readonly OrderDbContext _dbContext;
         private IProductService _productService;
-        public OrderApiController(IMapper mapper, OrderDbContext dbContext, IProductService productService)
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        public OrderApiController(IMapper mapper, OrderDbContext dbContext, IProductService productService, IMessageBus messageBus, IConfiguration configuration)
         {
             _mapper = mapper;
             _dbContext = dbContext;
             _productService = productService;
             _responseDto = new ResponseDto();
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
 
         [Authorize]
@@ -70,13 +75,13 @@ namespace Lampros.Services.OrderAPI.Controllers
                     Mode = "payment",
                 };
 
-                var discountsObj = new List<SessionDiscountOptions>();
+                var discountsObj = new List<SessionDiscountOptions>()
                 {
                     new SessionDiscountOptions
                     {
                         Coupon = stripeRequestDto.OrderHeader.CouponCode
-                    };
-                }
+                    }
+                };
 
                 foreach (var item in stripeRequestDto.OrderHeader.OrderDetails)
                 {
@@ -135,6 +140,15 @@ namespace Lampros.Services.OrderAPI.Controllers
                     orderHeader.PaymentIntentId = paymentIntent.Id;
                     orderHeader.Status = OrderStatus.Approved;
                     await _dbContext.SaveChangesAsync();
+                    RewardDto rewardDto = new()
+                    {
+                        OrderId = orderHeader.OrderHeaderId,
+                        RewardActivity = Convert.ToInt32(orderHeader.OrderTotal),
+                        UserId = orderHeader.UserId
+                    };
+
+                    string topicName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
+                    await _messageBus.PublishMessage(rewardDto, topicName);
                     _responseDto.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
                 }
                 

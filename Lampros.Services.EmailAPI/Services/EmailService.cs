@@ -1,4 +1,5 @@
 ﻿using Lampros.Services.EmailAPI.Data;
+using Lampros.Services.EmailAPI.Message;
 using Lampros.Services.EmailAPI.Models;
 using Lampros.Services.EmailAPI.Models.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,12 @@ namespace Lampros.Services.EmailAPI.Services
 
             await LogAndEmail(message.ToString(), cartDto.CartHeader.Email);
 
+        }
+
+        public async Task LogOrderPlaced(RewardsMessage rewardsMessage)
+        {
+            string message = "New order placed. <br/> Order Id " + rewardsMessage.OrderId;
+            await LogAndEmail(message, "test2@gmail.com");
         }
 
         public async Task RegisterUserEmailAndLog(string email)
