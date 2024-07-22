@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Lampros.Services.CouponAPI.Controllers
 {
     [Route("api/coupon")]
@@ -92,6 +93,18 @@ namespace Lampros.Services.CouponAPI.Controllers
                 var coupon = _mapper.Map<Coupon>(couponDto);
                 await _context.Coupons.AddAsync(coupon);
                 await _context.SaveChangesAsync();
+
+                var couponOptions = new Stripe.CouponCreateOptions
+                {
+                    Duration = "once",
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "usd",
+                    Id = couponDto.CouponCode
+                };
+                var stripeCouponService = new Stripe.CouponService();
+                stripeCouponService.Create(couponOptions);
+
                 _responseDto.Result = _mapper.Map<CouponDto>(coupon);
             }
             catch (Exception ex)
@@ -131,9 +144,12 @@ namespace Lampros.Services.CouponAPI.Controllers
         {
             try
             {
-                var coupon = await _context.Coupons.FirstOrDefaultAsync(x => x.CouponId == couponId);
+                Coupon coupon = await _context.Coupons.FirstOrDefaultAsync(x => x.CouponId == couponId);
                 _context.Coupons.Remove(coupon);
                 await _context.SaveChangesAsync();
+
+                var stripeCouponService = new Stripe.CouponService();
+                stripeCouponService.Delete(coupon.CouponCode);
             }
             catch (Exception ex)
             {

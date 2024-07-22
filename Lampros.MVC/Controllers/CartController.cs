@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
+using static Lampros.MVC.Utility.StaticTypes;
 
 namespace Lampros.MVC.Controllers
 {
@@ -46,9 +47,36 @@ namespace Lampros.MVC.Controllers
             if(response is not null && response.IsSuccess)
             {
                 //get stripe session and redirect to stripe to place order
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+                StripeRequestDto stripeRequestDto = new()
+                {
+                    ApprovedUrl = domain + "cart/Confirmation?orderId=" + orderHeaderDto.OrderHeaderId,
+                    CancelUrl = domain + "cart/checkout",
+                    OrderHeader = orderHeaderDto
+                };
 
+                var responseDto = await _orderService.CreateStripeSession(stripeRequestDto);
+                StripeRequestDto stripeResponse = JsonConvert.DeserializeObject<StripeRequestDto>(Convert.ToString(responseDto.Result));
+
+                Response.Headers.Add("Location", stripeResponse.StripeSessionUrl);
+                return new StatusCodeResult(303);
             }
             return View();
+        }
+        
+        public async Task<IActionResult> Confirmation(int orderId)
+        {
+            ResponseDto? response = await _orderService.ValidateStripeSession(orderId);
+            if (response is not null && response.IsSuccess)
+            {
+                OrderHeaderDto orderHeaderDto = JsonConvert.DeserializeObject<OrderHeaderDto>(Convert.ToString(response.Result));
+                if(orderHeaderDto.Status == OrderStatus.Approved)
+                {
+                    return View(orderId);
+                }
+                
+            }
+            return View(orderId);
         }
 
         public async Task<IActionResult> Remove(int cartDetailsId)
