@@ -2,7 +2,7 @@
 
 using static Lampros.MVC.Utility.StaticTypes;
 
-namespace Lampros.MVC.Models.Dto
+namespace Lampros.MVC.Models
 {
     public class OrderHeaderDto
     {

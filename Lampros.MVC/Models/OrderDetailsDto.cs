@@ -1,5 +1,5 @@
 ﻿
-namespace Lampros.MVC.Models.Dto
+namespace Lampros.MVC.Models
 {
     public class OrderDetailsDto
     {

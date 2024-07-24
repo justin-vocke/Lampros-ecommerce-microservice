@@ -4,11 +4,14 @@ using Lampros.Services.OrderAPI.Data;
 using Lampros.Services.OrderAPI.Models;
 using Lampros.Services.OrderAPI.Models.Dto;
 using Lampros.Services.OrderAPI.Service.IService;
+using Lampros.Services.OrderAPI.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using Stripe.Climate;
 using static Lampros.Services.OrderAPI.Utility.StaticTypes;
 
 namespace Lampros.Services.OrderAPI.Controllers
@@ -31,6 +34,49 @@ namespace Lampros.Services.OrderAPI.Controllers
             _responseDto = new ResponseDto();
             _messageBus = messageBus;
             _configuration = configuration;
+        }
+
+        [HttpGet("GetOrders")]
+        [Authorize]
+        public async Task<ResponseDto> GetOrders(string? userId = "")
+        {
+            try
+            {
+                IEnumerable<OrderHeader> orderHeaderList;
+                if (User.IsInRole(StaticTypes.RoleAdmin))
+                {
+                    orderHeaderList = _dbContext.OrderHeader.Include(u => u.OrderDetails).OrderByDescending(x => x.OrderHeaderId).ToList();
+                }
+                else
+                {
+                    orderHeaderList = _dbContext.OrderHeader.Include(u => u.OrderDetails).
+                        Where(x => x.UserId == userId).OrderByDescending(x => x.OrderHeaderId).ToList();
+                }
+                _responseDto.Result = _mapper.Map<IEnumerable<OrderHeaderDto>>(orderHeaderList);
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [HttpGet("GetOrder/{orderId:int}")]
+        [Authorize]
+        public async Task<ResponseDto> GetOrder(int orderId)
+        {
+            try
+            {
+                OrderHeader orderHeader = _dbContext.OrderHeader.Include(u => u.OrderDetails).First(x => x.OrderHeaderId == orderId);
+                _responseDto.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
         }
 
         [Authorize]
@@ -157,6 +203,42 @@ namespace Lampros.Services.OrderAPI.Controllers
             {
                 _responseDto.IsSuccess = false;
                 _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [Authorize]
+        [HttpPost("UpdateOrderStatus/{orderId:int}")]
+        public async Task<ResponseDto> UpdateOrderStatus(int orderId, [FromBody] string newStatus)
+        {
+            try
+            {
+                StaticTypes.OrderStatus newStatusEnumValue;
+                OrderHeader orderHeader = _dbContext.OrderHeader.First(x => x.OrderHeaderId == orderId);
+                if(orderHeader is not null)
+                {
+                    if(newStatus == StaticTypes.OrderStatus.Cancelled.ToString())
+                    {
+                        //we will give refund
+                        var options = new RefundCreateOptions
+                        {
+                            Reason = RefundReasons.RequestedByCustomer,
+                            PaymentIntent = orderHeader.PaymentIntentId
+                        };
+
+                        var refundService = new RefundService();
+                        Refund refund = await refundService.CreateAsync(options);
+                        
+                    }
+                    Enum.TryParse(newStatus, out newStatusEnumValue);
+                    orderHeader.Status = newStatusEnumValue;
+                    await _dbContext.SaveChangesAsync();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
             }
             return _responseDto;
         }
