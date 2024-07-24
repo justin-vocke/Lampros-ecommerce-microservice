@@ -87,13 +87,35 @@ namespace Lampros.Services.ProductAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ResponseDto> Post([FromBody] ProductDto ProductDto)
+        public async Task<ResponseDto> Post(ProductDto productDto)
         {
             try
             {
-                var product = _mapper.Map<Product>(ProductDto);
+                var product = _mapper.Map<Product>(productDto);
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
+
+                if (productDto.Image is not null)
+                {
+                    string fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+                    string filePath = @"wwwroot\ProductImages\" + fileName;
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        productDto.Image.CopyTo(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                    product.ImageLocalPath = filePath;
+                }
+                else
+                {
+                    product.ImageUrl = "https://placehold.co/600x400";
+                }
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+
                 _responseDto.Result = _mapper.Map<ProductDto>(product);
             }
             catch (Exception ex)
@@ -107,11 +129,35 @@ namespace Lampros.Services.ProductAPI.Controllers
 
         [HttpPut]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ResponseDto> Put([FromBody] ProductDto ProductDto)
+        public async Task<ResponseDto> Put(ProductDto productDto)
         {
             try
             {
-                var product = _mapper.Map<Product>(ProductDto);
+                var product = _mapper.Map<Product>(productDto);
+                if (productDto.Image is not null)
+                {
+                    if (!string.IsNullOrEmpty(product.ImageLocalPath))
+                    {
+                        var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
+                        FileInfo file = new FileInfo(oldFilePathDirectory);
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+                    }
+                    string fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+                    string filePath = @"wwwroot\ProductImages\" + fileName;
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        productDto.Image.CopyTo(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                    product.ImageLocalPath = filePath;
+                }
+
                 _context.Products.Update(product);
                 await _context.SaveChangesAsync();
 
@@ -134,6 +180,15 @@ namespace Lampros.Services.ProductAPI.Controllers
             try
             {
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == productId);
+                if (!string.IsNullOrEmpty(product.ImageLocalPath))
+                {
+                    var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
+                    FileInfo file = new FileInfo(oldFilePathDirectory);
+                    if(file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }

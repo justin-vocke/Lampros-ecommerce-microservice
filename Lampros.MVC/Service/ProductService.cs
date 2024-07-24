@@ -17,7 +17,8 @@ namespace Lampros.MVC.Service
             {
                 ApiType = ApiType.POST,
                 Url = ProductApiBase + "/api/product/",
-                Data = productDto
+                Data = productDto,
+                ContentType = ContentType.MultipartFormData
             });
         }
 
@@ -63,7 +64,8 @@ namespace Lampros.MVC.Service
             {
                 ApiType = ApiType.PUT,
                 Url = ProductApiBase + "/api/product/",
-                Data = productDto
+                Data = productDto,
+                ContentType = ContentType.MultipartFormData
             });
         }
     }
