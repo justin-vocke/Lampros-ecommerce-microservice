@@ -1,5 +1,6 @@
 ﻿using Lampros.MVC.Models;
 using Lampros.MVC.Service.IService;
+using Microsoft.AspNetCore.Mvc;
 using static Lampros.MVC.Utility.StaticTypes;
 
 namespace Lampros.MVC.Service
@@ -29,6 +30,35 @@ namespace Lampros.MVC.Service
                 ApiType = ApiType.POST,
                 Url = OrderApiBase + "/api/order/CreateStripeSession",
                 Data = stripeRequesttDto
+            });
+        }
+
+        public async Task<ResponseDto?> GetAllOrders(string? userId)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.GET,
+                Url = OrderApiBase + "/api/order/GetOrders",
+                Data = userId
+            });
+        }
+
+        public async Task<ResponseDto?> GetOrder(int orderId)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.GET,
+                Url = OrderApiBase + "/api/order/GetOrder/" + orderId                
+            });
+        }
+
+        public async Task<ResponseDto?> UpdateOrderStatus(int orderId, [FromBody] string newStatus)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.POST,
+                Url = OrderApiBase + "/api/order/UpdateOrderStatus/" + orderId,
+                Data = newStatus
             });
         }
 
