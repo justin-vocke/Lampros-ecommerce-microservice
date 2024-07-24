@@ -1,4 +1,5 @@
-﻿using static Lampros.MVC.Utility.StaticTypes;
+﻿
+using static Lampros.MVC.Utility.StaticTypes;
 
 namespace Lampros.MVC.Models
 {
@@ -8,5 +9,6 @@ namespace Lampros.MVC.Models
         public string Url { get; set; }
         public object Data { get; set; }
         public string AccessToken { get; set; }
+        public ContentType ContentType { get; set; } = ContentType.Json;
     }
 }
