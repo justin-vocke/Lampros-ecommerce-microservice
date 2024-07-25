@@ -2,6 +2,7 @@
 using Lampros.MVC.Models.Dto;
 using Lampros.MVC.Service.IService;
 using Lampros.MVC.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,11 +18,13 @@ namespace Lampros.MVC.Controllers
             _orderService = orderService;
         }
 
+        [Authorize]
         public IActionResult OrderIndex()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> OrderDetail(int orderId)
         {
             OrderHeaderDto orderHeaderDto = new OrderHeaderDto();
@@ -40,7 +43,7 @@ namespace Lampros.MVC.Controllers
             return View(orderHeaderDto);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll(string orderStatus)
+        public IActionResult GetAll(string orderStatus)
         {
             IEnumerable<OrderHeaderDto> orderList;
             string userId = "";
@@ -48,9 +51,9 @@ namespace Lampros.MVC.Controllers
             {
                 userId = User.Claims.Where(x => x.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
             }
-            ResponseDto responseDto = await _orderService.GetAllOrders(userId);
+            ResponseDto responseDto = _orderService.GetAllOrders(userId).GetAwaiter().GetResult();
 
-            if(responseDto is not null && responseDto.IsSuccess)
+            if (responseDto is not null && responseDto.IsSuccess)
             {
                 orderList = JsonConvert.DeserializeObject<IEnumerable<OrderHeaderDto>>(Convert.ToString(responseDto.Result));
                 switch(orderStatus)

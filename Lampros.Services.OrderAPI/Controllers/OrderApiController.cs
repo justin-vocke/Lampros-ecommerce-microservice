@@ -35,10 +35,9 @@ namespace Lampros.Services.OrderAPI.Controllers
             _messageBus = messageBus;
             _configuration = configuration;
         }
-
-        [HttpGet("GetOrders")]
         [Authorize]
-        public async Task<ResponseDto> GetOrders(string? userId = "")
+        [HttpGet("GetOrders")]
+        public ResponseDto? Get(string? userId = "")
         {
             try
             {

@@ -38,8 +38,7 @@ namespace Lampros.MVC.Service
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = ApiType.GET,
-                Url = OrderApiBase + "/api/order/GetOrders",
-                Data = userId
+                Url = OrderApiBase + "/api/order/GetOrders?userId=" + userId
             });
         }
 
